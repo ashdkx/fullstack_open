@@ -31,15 +31,19 @@ const Title = (props) => {
   )
 }
 
-const Statistics = ({statistics}) => {
+const Statistics = ({ statistics }) => {
   return (
     <>
       <Title text={'statistics'} />
-      <Label text={'good'} value={statistics.good} />
-      <Label text={'neutral'} value={statistics.neutral} />
-      <Label text={'bad'} value={statistics.bad} />
-      <Label text={'total'} value={statistics.good + statistics.neutral + statistics.bad} />
-      <Label text={'positive'} value={statistics.good / (statistics.good + statistics.neutral + statistics.bad) * 100} />
+      {statistics.total === 0 ? <p>No feedback given</p> :
+        <>
+          <Label text={'good'} value={statistics.good} />
+          <Label text={'neutral'} value={statistics.neutral} />
+          <Label text={'bad'} value={statistics.bad} />
+          <Label text={'total'} value={statistics.total} />
+          <Label text={'positive'} value={statistics.good / statistics.total * 100} />
+        </>
+      }
     </>
   )
 }
@@ -51,7 +55,8 @@ function App() {
   const statistics = {
     good: good,
     neutral: neutral,
-    bad: bad
+    bad: bad,
+    total: good + bad + neutral
   }
 
   return (
@@ -60,7 +65,7 @@ function App() {
       <Button onClick={() => setGood(good + 1)} label={'good'} />
       <Button onClick={() => setNeutral(neutral + 1)} label={'neutral'} />
       <Button onClick={() => setBad(bad + 1)} label={'bad'} />
-      <Statistics statistics={statistics}/>
+      <Statistics statistics={statistics} />
     </div>
   )
 
