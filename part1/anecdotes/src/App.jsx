@@ -36,7 +36,6 @@ function App() {
   const vote = () => {
     const copy = [...votes]
     copy[selected] += 1
-    console.log(mostVoted, 'mostVoted')
     votes[mostVoted] < copy[selected] ? setMostVoted(selected) : setMostVoted(mostVoted)
     setVotes(copy)
   }
