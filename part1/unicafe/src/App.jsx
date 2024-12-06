@@ -8,18 +8,22 @@ const Button = ({ onClick, label }) => {
   )
 }
 
-const Label = (props) => {
+const StatisticLine = (props) => {
   if (props.text === 'positive')
     return (
       <>
-        {isNaN(props.value) ? <p> {props.text} {'0 %'}</p> : <p> {props.text} {props.value + ' %'}</p>}
+        <tr>
+          <td>{props.text}</td>
+          <td>{props.value + ' %'}</td>
+        </tr>
       </>
     )
 
   return (
-    <>
-      <p>{props.text} {props.value}</p>
-    </>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   )
 }
 
@@ -36,13 +40,16 @@ const Statistics = ({ statistics }) => {
     <>
       <Title text={'statistics'} />
       {statistics.total === 0 ? <p>No feedback given</p> :
-        <>
-          <Label text={'good'} value={statistics.good} />
-          <Label text={'neutral'} value={statistics.neutral} />
-          <Label text={'bad'} value={statistics.bad} />
-          <Label text={'total'} value={statistics.total} />
-          <Label text={'positive'} value={statistics.good / statistics.total * 100} />
-        </>
+        <table>
+          <tbody>
+            <StatisticLine text={'good'} value={statistics.good} />
+            <StatisticLine text={'neutral'} value={statistics.neutral} />
+            <StatisticLine text={'bad'} value={statistics.bad} />
+            <StatisticLine text={'total'} value={statistics.total} />
+            <StatisticLine text={'average'} value={statistics.avg} />
+            <StatisticLine text={'positive'} value={statistics.good / statistics.total * 100} />
+          </tbody>
+        </table>
       }
     </>
   )
@@ -56,7 +63,8 @@ function App() {
     good: good,
     neutral: neutral,
     bad: bad,
-    total: good + bad + neutral
+    total: good + bad + neutral,
+    avg: (good + bad - neutral) / (good + bad + neutral)
   }
 
   return (
